@@ -1,0 +1,8 @@
+.idea
+*.pyc
+bboard.data
+db.sqlite3
+bulletin_board/bulletin_board/media
+bboard_venv/
+.env
+

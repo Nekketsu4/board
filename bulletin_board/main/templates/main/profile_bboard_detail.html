@@ -1,0 +1,44 @@
+{% extends "layout/basic.html" %}
+
+{% load bootstrap4 %}
+
+{% block title %}{{ bboard.title }} - {{ bboard.rubric.name }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid mt-3">
+    <div class="row">
+        {% if bboard.image %}
+        <div class="col-md-auto"><img src="{{ bboard.image.url }}"class="main-image"></div>
+        {% endif %}
+        <div class="col">
+            <h2>{{ bboard.title }}</h2>
+            <p>{{ bboard.content }}</p>
+            <p class="font-weight-bold">{{ bboard.price }} руб.</p>
+            <p>{{ bboard.contacts }}</p>
+            <p class="text-right font-italic">Добавлено{{ bboard.created_at }}</p>
+        </div>
+    </div>
+</div>
+{% if ais %}
+<div class="d-flex justify-content-between flex-wrap mt-5">
+    {% for ai in ais %}
+    <div>
+        <img class="additional-image" src="{{ ai.image.url }}">
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+<p><a href="{% url 'main:profile' %}">Назад</a></p>
+<h4 class="mt-5">Комментарии</h4>
+{% if comments %}
+<div class="mt-5">
+    {% for comment in comments %}
+    <div class="my-2 p-2 border">
+        <h5>{{ comment.author }}</h5>
+        <p>{{ comment.content }}</p>
+        <p class="text-right font-italic">{{ comment.created_at }}</p>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,17 @@
+header h1 {
+    background: url('goods.jpg');
+    background-position: center;
+    box-sizing: border-box;
+}
+.root {
+    font-size: larger;
+}
+
+img.main-image {
+    width:300px;
+}
+
+img.additional-image {
+    width: 180px;
+}
+
