@@ -11,6 +11,12 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import environ
+
+from pathlib import Path
+
+env = environ.Env()
+environ.Env.read_env(env_file=Path('bulletin_board/.env'))
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -19,21 +25,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '(q%ms1xhbpeqke1bu@+bgb)wdne#447p)n1y!itl++56$8y7o6'
+SECRET_KEY = env('KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.mail.ru'
-EMAIL_USE_TLS = True
-EMAIL_USE_SSl = False
-EMAIL_PORT = 465
-EMAIL_HOST_USER = 'Nekketsu4@mail.ru'
-EMAIL_HOST_PASSWORD = '**********'
-
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -97,8 +94,12 @@ WSGI_APPLICATION = 'bulletin_board.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'bboard.data'),
+    'ENGINE': 'django.db.backends.postgresql',
+    'NAME': 'bulletin_board',
+    'USER': 'postgres',
+    'PASSWORD': env('MY_PASS'),
+    'HOST': '127.0.0.1',
+    'PORT': '5432'
     }
 }
 
@@ -160,3 +161,15 @@ CORS_URLS_REGEX = r'^/api/.*$'
 INTERNAL_IPS = [
     '127.0.0.1',
 ]
+
+DEFAULT_FROM_EMAIL = env('EMAIL_HOST_USER')
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSl = False
+EMAIL_PORT = 2525
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+
